@@ -1,20 +1,16 @@
-# SADIQ
+# Traffic Generators
+The IoT traffic generator is a simple C program which takes 3 inputs:
+1. The data traces file
+2. The Poisson distribution file 
+3. and, the number of packets you want to send
 
-SADIQ is an SDN-based system for providing IoT applications with location aware and context-driven QoS. SADIQ is built on top of the floodlight controller and can be run on switches that support OpenFlow 1.3. We include in this repo the SADIQ controller modules, real data traces from two IoT application: weather signal www.weathersignal.com/ and Melbourne smart parking https://data.melbourne.vic.gov.au/, end server simulation of these two applications, and some useful scripts to regenerate the sensor traces and to evaluate the results. 
+The traffic generator will create UDP packets out of each line of the data traces and send them out according to the rate set by the Poisson file.
 
-![Alt text](SADIQ.png?raw=true "SADIQ Architecture")
+To create a Poisson file with a specific rate you need to simply run the generatePoisson.py with rate you want in mbps and the number of different files you need of that rate. The script will generate a file of Poisson numbers that will be used by the IoT Generator to set the rate of packet generation.
 
-# Getting Started
-To run SADIQ you first need to create a test bed that should include:
-1. a Server to run the controller
-2. Host to run the end application server simulator
-3. Host(s) to run traffic generators
-4. and, Openflow 1.3 switches.
+Make sure to change the SERVER IP address to your application server simulator IP address.
 
-For reference, our test bed  consists of three 1Gbps HP Aruba 2930Fswitches connected in a tree topology, as shown in the figure below, a single controller that runs on a Dell workstation (8core, 2.67GHz Intel Xeon processor), an application server running  on  a  Lenovo  workstation  (24  core,  2.5GHz  IntelXeon processor), and 20 traffic generators running on 4 Shuttle XPCs (dual core, 2.93GHz Intel CoreTM).
+Here is an example for the command to run the traffic generator:
+sudo  ./IoTGenerator datafile.csv poissonfile.txt 10000
 
-![Alt text](TopoLarge.png?raw=true "Topology")
-
-The switches should have at least 2 priority queues and enable the DSCP mapping to these queues. 
-
-Follow the instructions of each component for installing and running SADIQ.
+It is recommended to run multiple instances of the traffic generator on each host. 
