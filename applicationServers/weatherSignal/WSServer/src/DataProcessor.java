@@ -263,17 +263,7 @@ public class DataProcessor implements Runnable {
 				} else {
 					// First get dropRate from controller to decide if we need
 					// to change the ratio
-					/*
-					 * String droprate="0";//restclient.GetHighQueueDropRate();
-					 * System.out.println(droprate); if (droprate !=null ||
-					 * droprate!="") { double drop=Double.parseDouble(droprate);
-					 * if (drop>=hDropthershold) {
-					 * System.out.println("old Ratio ="+elephantRatio);
-					 * elephantRatio=elephantRatio+0.05;
-					 * System.out.println("New Ratio is ="+elephantRatio); }else
-					 * if (drop<=lDropthershold) { elephantRatio=0.05; } else if
-					 * (drop==0) { elephantRatio=0.2; } }
-					 */
+				
 					// get a copy of the regions count map
 					Map<String, Integer> regionscountCopy = new HashMap<String, Integer>(
 							regionscount);
@@ -331,38 +321,7 @@ public class DataProcessor implements Runnable {
 					System.out.println("ElephantCount=" + elephants.size());
 					// if (durationCounter ==1)
 					droprateVSelepahnts.add(droprate + "," + elephants.size());
-					///
-					/*
-					 * //Sum rates until reaching ratio of the assigned rate int
-					 * totalSamples=0; int elephantSamples=0; double
-					 * totalrate=0;
-					 * 
-					 * double duration=periodicUpdate*durationCounter; //in sec
-					 * 
-					 * for(Map.Entry<String,Integer> entry :
-					 * sortedMap.entrySet()) { if (totalrate >=
-					 * (assigendRate*ratio)) {
-					 * 
-					 * // add String to elephants list get the full region
-					 * address
-					 * elephants.addElement(regionFullregion.get(entry.getKey
-					 * ())); elephantSamples+=entry.getValue();
-					 * 
-					 * // System.out.println("Elephant="+entry.getKey()); }
-					 * else{ totalSamples+=entry.getValue(); totalrate=
-					 * (totalSamples*pktSize)/(1000000*duration);
-					 * 
-					 * //System.out.println("totalSamples="+totalSamples); //
-					 * System.out.println("totalrate="+totalrate); } }
-					 * 
-					 * 
-					 * System.out.println("duration="+duration);
-					 * System.out.println("Totalrate="+totalrate);
-					 * System.out.println("TotalSamples="+totalSamples);
-					 * System.out.println("ElephantSamples="+elephantSamples);
-					 * System.out.println("ElephantCount="+elephants.size()); if
-					 * (durationCounter ==1) writeElephants(elephants);
-					 */
+				
 
 					if (stopUpdate && updatecount >= stopUpdateCounter) {
 						System.out.println("Update stopped");

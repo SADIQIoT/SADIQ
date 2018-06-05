@@ -44,7 +44,7 @@ void readpackets(char *pkts_file)
 
   char *string = malloc(fsize + 1);
   fread(string, fsize, 1, f);
- //printf("%s\n",string);
+
   fclose(f);
 
 
@@ -71,16 +71,12 @@ void readpackets(char *pkts_file)
   pkts = realloc (pkts, sizeof (char*) * (n_spaces+1));
   pkts[n_spaces] = 0;
 
-  /* print the result */
+ 
 
-  for (i = 0; i < 5; ++i){
-	 // printf ("%s\n", pkts[i]);
+ 
   }
 
 
-  /* free the memory allocated */
-
- // free (pkts);
 
 }
 
@@ -99,7 +95,6 @@ void readPoissonNumbers(char *poisson_file)
 
   char *string = malloc(fsize + 1);
   fread(string, fsize, 1, f);
- //printf("%s\n",string);
   fclose(f);
 
 
@@ -162,7 +157,7 @@ int main( int argc, char *argv[])
         fprintf(stderr, "inet_aton() failed\n");
         exit(1);
     }
-   // char message[BUFLEN]="18TXR0965645458,239,2015-03-08 08 06 08 835000,45.5540237427,-73.595085144";
+            // msg example: char message[BUFLEN]="18TXR0965645458,239,2015-03-08 08 06 08 835000,45.5540237427,-73.595085144";
     int index=0;
     char random[1455];
     int y;
@@ -174,7 +169,7 @@ int main( int argc, char *argv[])
     double x=0.0011*1000000;
     while(index <pktCount)
     {
-    	//printf("%d \n", index);
+  
         if (sendto(s, pkts[index], strlen(random) , 0 , (struct sockaddr *) &si_other, slen)==-1)
         {
             die("sendto()");
@@ -183,19 +178,12 @@ int main( int argc, char *argv[])
         index++;
         int c=(strtod (pnumbers[index], NULL))*1000000;
         int prop_delay=0.00011*1000000;
-	//int prop_delay=0.00041*1000000;
-      
-       // printf("%d %f %f \n", index,y,x);
-       // usleep((int) ((strtod (pnumbers[index], NULL))*1000000));// in micro seconds
 	
          usleep(abs(c-prop_delay));
     }
 
     //sleep for a minute before sending termination string to make sure all transmitters are done
     printf("%d \n", index);   
-   // usleep(60000000);
-   // char end[BUFLEN]="END OF TRANSMISSION";
-   // sendto(s, end, strlen(end) , 0 , (struct sockaddr *) &si_other, slen);
     close(s);
     free (pkts);
     free (pnumbers);

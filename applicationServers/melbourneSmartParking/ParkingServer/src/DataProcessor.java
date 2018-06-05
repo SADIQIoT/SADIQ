@@ -176,7 +176,6 @@ public class DataProcessor implements Runnable {
 			}
 			in.close();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			System.out.println(e.toString());
 			e.printStackTrace();
 			logger.info(e.toString());
@@ -196,7 +195,6 @@ public class DataProcessor implements Runnable {
 			}
 			in.close();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			System.out.println(e.toString());
 			e.printStackTrace();
 			logger.info(e.toString());
@@ -217,7 +215,6 @@ public class DataProcessor implements Runnable {
 			}
 			in.close();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			System.out.println(e.toString());
 			e.printStackTrace();
 			logger.info(e.toString());
@@ -259,7 +256,6 @@ public class DataProcessor implements Runnable {
 
 				if ((buffer = pktarray[j]) != null) {
 
-					// buffer = pktarray1[j];
 
 					j++;
 
@@ -288,7 +284,6 @@ public class DataProcessor implements Runnable {
 
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			System.out.println(data.trim());
 			System.out.println(e.toString());
 			e.printStackTrace();
@@ -337,13 +332,8 @@ public class DataProcessor implements Runnable {
 				Vector<String> Regions1KM = new Vector<String>();
 				Vector<String> mid100Regions = new Vector<String>();
 				Vector<String> mid100RegionsTemp = new Vector<String>();
-				// File Area = new File(HOME_DIR +
-				// "Server/outputParking/HighPrioirtyAreas.csv");
-
-				// FileOutputStream fosArea = new FileOutputStream(Area, true);
-				// BufferedWriter bwarea = new BufferedWriter(new
-				// OutputStreamWriter(fosArea));
-
+				
+            
 				// Sort list
 				Map<String, Double> ParkingPercent100mCopy = new HashMap<String, Double>(
 						ParkingPercent1k);
@@ -358,11 +348,10 @@ public class DataProcessor implements Runnable {
 
 				for (Map.Entry<String, Double> entry : sortedMap.entrySet()) {
 					
-				//			|| sumOfParkingDevices >= maxNumberOfHighDevices)
-						//break;
+        
 					if (entry.getValue() >= highOccThershold) {
 						totalNumberofhighregions++;
-						if (k < maxNumberOfHighregions ){//&& totalParking1k.get(entry.getKey())>=100){
+						if (k < maxNumberOfHighregions ){
 						
 						String region100m = entry.getKey();
 						if (! eventRegions.contains(zeroPadRegion(region100m,3))){
@@ -397,49 +386,12 @@ public class DataProcessor implements Runnable {
 						
 						mid100RegionsTemp.clear();	
 						
-						
-					/*	String region1km = region100m.substring(0,
-								Math.min(region100m.length(), 7))
-								+ region100m.charAt(8) + region100m.charAt(9);
-
-						// get the 1km around the high priority 100m
-						if (!Regions1KM.contains(zeroPadRegion(region1km, 3))) {
-							sumOfParkingDevices += totalParking1k
-									.get(region1km);
-							Regions1KM.addElement(zeroPadRegion(region1km, 3));
-						}
-*/
-						// System.out.println(eventRegions);
-						// System.out.println(region1km);
-						// bwarea.write("MGRS1KM" + "," + region1km + "MGRS100m"
-						// + "," + entry.getKey() + "," + "percent: "
-						// + entry.getValue());
-						// bwarea.newLine();
+                
 						
 					}
 				}}
 
-				// get the 100m inside the same 1km that is above the
-				// midoccupancy
-			/*	for (Map.Entry<String, Double> entry : sortedMap.entrySet()) {
-					if (entry.getValue() >= midOccThershold
-							&& entry.getValue() < highOccThershold) {
-
-						String region100m = entry.getKey();
-						String region1km = region100m.substring(0,
-								Math.min(region100m.length(), 7))
-								+ region100m.charAt(8) + region100m.charAt(9);
-
-						if (Regions1KM.contains(zeroPadRegion(region1km, 3))) {
-							// then add the 100m to the priority list
-							// mid100Regions.addElement(zeroPadRegion(region100m,
-							// 4));
-							// System.out.println("Mid Region Add");
-						}
-					}
-				}*/
-
-				// bwarea.newLine();
+			
 				System.out.println("Total Number of devices "
 						+ sumOfParkingDevices);
 				logger.info("Selected event regions, sending them to REST API 100m :"
@@ -452,14 +404,10 @@ public class DataProcessor implements Runnable {
 					// sending MID regions
 					if (droprate >= dropthershold && currentDrop >= previousDrop) {
 						 previousDrop=currentDrop;
-						 //highOccThershold=0.4;
-						//Regions1KM.removeAllElements();
+						
 						mid100Regions.removeAllElements();
 					}
-			//		else {
-				//		highOccThershold=0.45;
-						
-			//		}
+			
 					
 					dropRate.add(droprate);
 					mid100Regions.clear();
@@ -578,47 +526,7 @@ public class DataProcessor implements Runnable {
 		logpkt = logpkt + ","
 				+ String.valueOf((ParkingPercent1k.get(region1k)));
 
-		/*
-		 * //
-		 * *******************************************************************
-		 * *******************************
-		 * 
-		 * // ******************************************** Area //
-		 * ************************************************
-		 * 
-		 * Double totalAreaParking = totalParkingArea.get(pkt.areaname);
-		 * 
-		 * if (!PacketCountArea.containsKey(pkt.areaname)) {
-		 * 
-		 * PacketCountArea.put(pkt.areaname, 1); } else {
-		 * PacketCountArea.put(pkt.areaname, PacketCountArea.get(pkt.areaname) +
-		 * 1); }
-		 * 
-		 * if (!ParkingPercentArea.containsKey(pkt.areaname)) {
-		 * 
-		 * if (pkt.status == 1) { OccupancyCountArea.put(pkt.areaname, 1.0);
-		 * ParkingPercentArea.put(pkt.areaname, (1 / totalAreaParking));
-		 * 
-		 * logpkt = logpkt + "," +
-		 * String.valueOf((ParkingPercentArea.get(pkt.areaname))); } } else {
-		 * 
-		 * if (pkt.status == 1) { count2 = OccupancyCountArea.get(pkt.areaname);
-		 * count2++; OccupancyCountArea.put(pkt.areaname, count2);
-		 * ParkingPercentArea.put(pkt.areaname, (count2 / totalAreaParking));
-		 * 
-		 * logpkt = logpkt + "," +
-		 * String.valueOf((ParkingPercentArea.get(pkt.areaname))); } else {
-		 * count2 = OccupancyCountArea.get(pkt.areaname); count2--;
-		 * OccupancyCountArea.put(pkt.areaname, count2);
-		 * ParkingPercentArea.put(pkt.areaname, (count2 / totalAreaParking));
-		 * 
-		 * logpkt = logpkt + "," +
-		 * String.valueOf((ParkingPercentArea.get(pkt.areaname)));
-		 * 
-		 * }
-		 * 
-		 * }
-		 */
+		
 
 		// **************************************************************************************************
 
@@ -635,8 +543,7 @@ public class DataProcessor implements Runnable {
 			logger.info("Writing the output files");
 			File fout1 = new File(HOME_DIR
 					+ "Server/outputParking/highAndMedSize.csv");
-			// File fout2 = new File(HOME_DIR
-			// + "Server/outputParking/highAndMedSRegions.csv");
+		
 			File fout3 = new File(HOME_DIR
 					+ "Server/outputParking/Droprate.csv");
 			File fout4 = new File(HOME_DIR
@@ -644,15 +551,13 @@ public class DataProcessor implements Runnable {
 			File fout5 = new File(HOME_DIR + "Server/outputParking/packets.csv");
 
 			FileOutputStream fos1 = new FileOutputStream(fout1);
-			// FileOutputStream fos2 = new FileOutputStream(fout2);
 			FileOutputStream fos3 = new FileOutputStream(fout3);
 			FileOutputStream fos4 = new FileOutputStream(fout4);
 			FileOutputStream fos5 = new FileOutputStream(fout5);
 
 			BufferedWriter bw1 = new BufferedWriter(
 					new OutputStreamWriter(fos1));
-			// BufferedWriter bw2 = new BufferedWriter(
-			// new OutputStreamWriter(fos2));
+			
 			BufferedWriter bw3 = new BufferedWriter(
 					new OutputStreamWriter(fos3));
 			BufferedWriter bw4 = new BufferedWriter(
@@ -661,24 +566,16 @@ public class DataProcessor implements Runnable {
 					new OutputStreamWriter(fos5));
 			int counter = 0;
 			for (Entry<String, String> entry : deviecLocation.entrySet()) {
-				// bw1.write(entry.getKey() + "," + entry.getValue() + ",");
-				// bw3.write(entry.getKey() + "," +
-				// deviceGPS.get(entry.getKey()));
-				// bw2.write(entry.getKey() + "," + entry.getValue() + ",");
+				
 				List<String> list = deviceStatuses.get(entry.getKey());
-				// bw2.write(Integer.toString(list.size()));
+				
 				int i = 0;
 				boolean correctPattern = true;
 				for (String value : list) {
-					// bw1.write(value + ",");
 
 					if ((i % 2 == 0 && value.equals("0"))
 							|| (i % 2 == 1 && value.equals("1"))) {
-						// System.out.println("i="+i+"  vlaue="+value+
-						// " i%2="+i%2+"  i%2==0 && value.equals(0))= "+(i%2==0
-						// &&
-						// value.equals("0"))+"  (i%2==1 && value.equals(1))="+(i%2==1
-						// && value.equals("1")));
+						
 						correctPattern = false;
 					}
 					i++;
@@ -686,13 +583,10 @@ public class DataProcessor implements Runnable {
 
 				if (!correctPattern) {
 					counter++;
-					// System.out.println(entry.getKey() + " " + list);
+					
 				}
 
-				// bw1.newLine();
-				// bw2.newLine();
-				// bw3.newLine();
-
+				
 			}
 
 			Iterator i = eventRegionsSize.iterator();
@@ -711,15 +605,7 @@ public class DataProcessor implements Runnable {
 				bw3.newLine();
 
 			}
-			/*
-			 * Iterator ii = eventRegions.iterator(); Iterator
-			 * jj=mid100Regions.iterator(); while (ii.hasNext() && jj.hasNext())
-			 * { bw2.write("High "+ii.next()+","); bw2.newLine();
-			 * bw2.write("Med: "+jj.next()); bw2.newLine();
-			 * 
-			 * 
-			 * }
-			 */
+			
 
 			System.out.println(counter);
 			for (Map.Entry<String, Double> entry2 : ParkingPercent100m
@@ -734,7 +620,7 @@ public class DataProcessor implements Runnable {
 			}
 
 			bw1.close();
-			// bw2.close();
+
 			bw3.close();
 			bw4.close();
 			bw5.close();
@@ -744,163 +630,7 @@ public class DataProcessor implements Runnable {
 		}
 	}
 
-	/*
-	 * private boolean parsePacket(String pkt) { try {
-	 * 
-	 * String[] tokens = pkt.split(",");
-	 * 
-	 * if (tokens.length >= 4) { String fullregion = tokens[0]; String deviceID
-	 * = tokens[2]; String orgTimeStamp = tokens[3]; String status = tokens[1];
-	 * String areaname = tokens[6]; // There is a problem when parsing the
-	 * street name: unexpected // \00 character is present // String
-	 * streetname=tokens[tokens.length-1];
-	 * 
-	 * // 100m region String region100m = fullregion.substring(0,
-	 * Math.min(fullregion.length(), 8)) + fullregion.charAt(10) +
-	 * fullregion.charAt(11) + fullregion.charAt(12);
-	 * 
-	 * // 1k region String region1k = fullregion.substring(0,
-	 * Math.min(fullregion.length(), 7)) + fullregion.charAt(10) +
-	 * fullregion.charAt(11);
-	 * 
-	 * String fullLocation = region100m + "," + areaname;
-	 * 
-	 * String timeStamp = new SimpleDateFormat("HH:mm:ss").format(new Date());
-	 * 
-	 * String logpkt = timeStamp + "," + fullregion + "," + region100m + "," +
-	 * region1k + "," + status + "," + deviceID + "," + orgTimeStamp + "," +
-	 * areaname; regionFullregion.put(fullregion, region100m);
-	 * deviecLocation.put(deviceID, fullLocation); deviceStatuses.put(deviceID,
-	 * status); deviceGPS.put(deviceID, tokens[4] + "," + tokens[5]);
-	 * 
-	 * // ********************************************100m MGRS //
-	 * ********************************************
-	 * 
-	 * Double total100mParking = totalParking.get(region100m);
-	 * 
-	 * 
-	 * if (!ParkingPercent100m.containsKey(region100m)) {
-	 * 
-	 * if (Integer.parseInt(status) == 1) { OccupancyCount100m.put(region100m,
-	 * 1.0); ParkingPercent100m.put(region100m, (1 / total100mParking));
-	 * regionFullregion.put(region100m, fullregion);
-	 * 
-	 * logpkt = logpkt + "," +
-	 * String.valueOf((ParkingPercent100m.get(region100m))); } } else {
-	 * 
-	 * if (Integer.parseInt(status) == 1) { count =
-	 * OccupancyCount100m.get(region100m); count++;
-	 * OccupancyCount100m.put(region100m, count);
-	 * ParkingPercent100m.put(region100m, (count / total100mParking));
-	 * 
-	 * logpkt = logpkt + "," +
-	 * String.valueOf((ParkingPercent100m.get(region100m))); } else { count =
-	 * OccupancyCount100m.get(region100m); count--;
-	 * OccupancyCount100m.put(region100m, count);
-	 * ParkingPercent100m.put(region100m, (count / total100mParking));
-	 * 
-	 * logpkt = logpkt + "," +
-	 * String.valueOf((ParkingPercent100m.get(region100m)));
-	 * 
-	 * }
-	 * 
-	 * }
-	 * 
-	 * //
-	 * ***********************************************************************
-	 * ***************************
-	 * 
-	 * // ********************************************1k MGRS //
-	 * ********************************************
-	 * 
-	 * Double total1kParking = totalParking1k.get(region1k);
-	 * 
-	 * if (!PacketCount1k.containsKey(region1k)) {
-	 * 
-	 * PacketCount1k.put(region1k, 1); } else { PacketCount1k.put(region1k,
-	 * PacketCount1k.get(region1k) + 1); }
-	 * 
-	 * if (!ParkingPercent1k.containsKey(region1k)) {
-	 * 
-	 * if (Integer.parseInt(status) == 1) { OccupancyCount1k.put(region1k, 1.0);
-	 * ParkingPercent1k.put(region1k, (1 / total1kParking));
-	 * 
-	 * logpkt = logpkt + "," + String.valueOf((ParkingPercent1k.get(region1k)));
-	 * } } else {
-	 * 
-	 * if (Integer.parseInt(status) == 1) { count1 =
-	 * OccupancyCount1k.get(region1k); count1++; OccupancyCount1k.put(region1k,
-	 * count1); ParkingPercent1k.put(region1k, (count1 / total1kParking));
-	 * 
-	 * logpkt = logpkt + "," + String.valueOf((ParkingPercent1k.get(region1k)));
-	 * } else { count1 = OccupancyCount1k.get(region1k); count1--;
-	 * OccupancyCount1k.put(region1k, count1); ParkingPercent1k.put(region1k,
-	 * (count1 / total1kParking));
-	 * 
-	 * logpkt = logpkt + "," + String.valueOf((ParkingPercent1k.get(region1k)));
-	 * 
-	 * }
-	 * 
-	 * }
-	 * 
-	 * //
-	 * ***********************************************************************
-	 * ***************************
-	 * 
-	 * // ******************************************** Area //
-	 * ************************************************
-	 * 
-	 * Double totalAreaParking = totalParkingArea.get(areaname);
-	 * 
-	 * if (!PacketCountArea.containsKey(areaname)) {
-	 * 
-	 * PacketCountArea.put(areaname, 1); } else { PacketCountArea.put(areaname,
-	 * PacketCountArea.get(areaname) + 1); }
-	 * 
-	 * if (!ParkingPercentArea.containsKey(areaname)) {
-	 * 
-	 * if (Integer.parseInt(status) == 1) { OccupancyCountArea.put(areaname,
-	 * 1.0); ParkingPercentArea.put(areaname, (1 / totalAreaParking));
-	 * 
-	 * logpkt = logpkt + "," +
-	 * String.valueOf((ParkingPercentArea.get(areaname))); } } else {
-	 * 
-	 * if (Integer.parseInt(status) == 1) { count2 =
-	 * OccupancyCountArea.get(areaname); count2++;
-	 * OccupancyCountArea.put(areaname, count2);
-	 * ParkingPercentArea.put(areaname, (count2 / totalAreaParking));
-	 * 
-	 * logpkt = logpkt + "," +
-	 * String.valueOf((ParkingPercentArea.get(areaname))); } else { count2 =
-	 * OccupancyCountArea.get(areaname); count2--;
-	 * OccupancyCountArea.put(areaname, count2);
-	 * ParkingPercentArea.put(areaname, (count2 / totalAreaParking));
-	 * 
-	 * logpkt = logpkt + "," +
-	 * String.valueOf((ParkingPercentArea.get(areaname)));
-	 * 
-	 * }
-	 * 
-	 * }
-	 * 
-	 * //
-	 * ***********************************************************************
-	 * ***************************
-	 * 
-	 * pkts.addElement(logpkt); return true;
-	 * 
-	 * } else { logger.info("incorrect packet format :" + pkt);
-	 * System.out.println("incorrect packet format :" + pkt); return false; }
-	 * 
-	 * } catch (Exception e) { // TODO Auto-generated catch block
-	 * System.out.println(pkt);
-	 * 
-	 * System.out.println(e.toString()); e.printStackTrace();
-	 * logger.info(e.toString()); return false; }
-	 * 
-	 * }
-	 */
-
+	
 	class WorkerThread implements Runnable {
 		BlockingQueue<DatagramPacket> queue2;
 
@@ -918,29 +648,6 @@ public class DataProcessor implements Runnable {
 					if ((pkt = queue2.poll(1, TimeUnit.MICROSECONDS)) != null) {
 						i++;
 						System.out.println("q2 " + i);
-
-						// byte[] x=new byte[pkt.getLength()];
-						// System.out.println(pkt.getPort());
-						// System.out.println("pkt "+pkt.getLength());
-						// pkt.getData();
-						// data=new String(pkt.getData(), 0, pkt.getLength());
-
-						// System.out.println(data.trim());
-
-						// if (data.substring(0, 19).equals("END OF
-						// TRANSMISSION")) {
-						// TimeUnit.SECONDS.sleep(20);
-						// System.out.println(data.trim());
-						// System.out.println(i);
-						// exec.shutdown();
-						// writeOutput();
-						// break;
-						// }
-
-						// Runnable worker = new WorkerThread(data);
-						// executor.execute(worker);//calling execute method of
-						// ExecutorService
-						// parsePacket(data);
 					}
 
 				}

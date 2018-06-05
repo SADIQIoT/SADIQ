@@ -55,7 +55,6 @@ public OrderedJSONObject buildQoSJsonObj (Vector<String> eventRegions_100m,Vecto
 	
 	for (String entry : eventRegions_100m)
 	{
-		//JSONObject innerobj = new JSONObject();
 		org.apache.wink.json4j.OrderedJSONObject innerobj = new OrderedJSONObject();
 		innerobj.put("1region", entry);
 		innerobj.put("2granularity-Level", 3);
@@ -111,7 +110,6 @@ public boolean sendQoStoController(OrderedJSONObject obj)
 			OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
 			out.write(obj.toString());
 			out.close();
-			// System.out.println(obj.toString());
 			BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 
 			while (in.readLine() != null) {
@@ -147,14 +145,12 @@ public String GetHighQueueDropRate ()
 		URL url = new URL(QUEUESTATSURI);
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		connection.setDoOutput(true);
-		//connection.setRequestProperty("Accept", "application/json");
 		connection.setConnectTimeout(2000);
 		connection.setReadTimeout(2000);
 		connection.setRequestMethod("GET");
 
 
 		BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-         //droprate=in.readLine();
 		String s="0";
 		if ((s=in.readLine()) != null) {
 			droprate=s;
