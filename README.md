@@ -1,4 +1,5 @@
-# SADIQ
+# SADIQ 
+(This repo is for the artifact evaluation of the paper: Location-Aware, Context-Driven QoS for IoT Applications. https://ieeexplore.ieee.org/document/8640087. You will be able to install SADIQ and reproduce all the results that appear in the paper.)
 
 SADIQ is an SDN-based system for providing IoT applications with location aware and context-driven QoS. SADIQ is built on top of the floodlight controller and can be run on switches that support OpenFlow 1.3. We include in this repo the SADIQ controller modules, real data traces from two IoT application: weather signal www.weathersignal.com/ and Melbourne smart parking https://data.melbourne.vic.gov.au/, end server simulation of these two applications, and some useful scripts to regenerate the sensor traces and to evaluate the results. 
 
